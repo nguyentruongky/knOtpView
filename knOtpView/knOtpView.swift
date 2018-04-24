@@ -74,9 +74,11 @@ class knOTPView: knView {
     }
     
     private func makeLabel() -> UILabel {
-        let label = knUIMaker.makeLabel(font: UIFont.systemFont(ofSize: 45),
-                                   color: color_69_125_245,
-                                   alignment: .center)
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 45)
+        label.textColor = color_69_125_245
+        label.textAlignment = .center
         label.createRoundCorner(5)
         label.createBorder(0.5, color: color_102)
         addSubview(label)
@@ -96,7 +98,7 @@ extension knOTPView: UITextFieldDelegate {
         else {
             newText = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         }
-        let codeLength = newText.length
+        let codeLength = newText.count
         guard codeLength <= digitCount else { return false }
         textField.text = newText
         
@@ -156,3 +158,39 @@ extension knOTPView: UITextFieldDelegate {
 
 
 
+extension String {
+    func substring(from: Int, to: Int) -> String {
+        let start = index(startIndex, offsetBy: from)
+        let end = index(endIndex, offsetBy: -(count - to) + 1)
+        let range = start ..< end
+        return String(self[range])
+    }
+}
+
+extension UIView {
+    func createBorder(_ width: CGFloat, color: UIColor) {
+        layer.borderColor = color.cgColor
+        layer.borderWidth = width
+    }
+    
+    @objc func createRoundCorner(_ radius: CGFloat) {
+        layer.cornerRadius = radius
+        clipsToBounds = true
+    }
+}
+
+class knView : UIView {
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        translatesAutoresizingMaskIntoConstraints = false
+        setupView()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupView()
+    }
+    
+    func setupView() { }
+}

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: knController {
+class ViewController: UIViewController {
 
     lazy var otpView = knOTPView(digitCount: 6, validate: self.validateOtp)
     override func viewDidLoad() {
@@ -16,7 +16,7 @@ class ViewController: knController {
         setupView()
     }
 
-    override func setupView() {
+    func setupView() {
         view.addSubviews(views: otpView)
         otpView.horizontal(toView: view, space: 8)
         otpView.top(toView: view, space: 120)
